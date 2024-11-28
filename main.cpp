@@ -250,7 +250,6 @@ private:
     }
 };
 
-
 int main() {
     Character* player1 = nullptr;
     Character* player2 = nullptr;
@@ -275,7 +274,7 @@ int main() {
         return 1;
     }
 
-    //Игрок 2
+    // Игрок 2
     cout << "Игрок 2, выберите свой класс (Воин, Разведчик, Маг, Лучник): ";
     cin >> classChoice;
     cout << "Выбери элемент для своего класса (Огонь, Вода, Земля, Воздух): ";
@@ -296,35 +295,46 @@ int main() {
 
     cout << "====================================" << endl;
 
-    //Вывод выбранных персонажей
+    // Вывод выбранных персонажей
     player1->display();
     player2->display();
 
     cout << "====================================" << endl;
 
+    // Случайный выбор первого игрока
+    bool isPlayer1Turn = randomize(0, 1);
+    cout << "Первый ход у Игрока " << (isPlayer1Turn ? "1" : "2") << "!" << endl;
+
     // Бой
     int phase = 1;
     while (player1->isAlive() && player2->isAlive()) {
         cout << "\n--- Фаза " << phase << " ---\n";
-        
-        // Ход
-         
-        cout << "1 Игрок " << endl;
-        player1->attack(player2);
-        if (player2->isAlive()) {
-                cout << "2 Игрок " <<  endl;
-                player2->attack(player1);
+
+        if (isPlayer1Turn) {
+            cout << "Ход Игрока 1\n";
+            player1->attack(player2);
+        } else {
+            cout << "Ход Игрока 2\n";
+            player2->attack(player1);
         }
 
-        // Display health after the phase
-         cout << "====================================" << endl;
+        // Проверяем, жив ли противник, если нет — завершаем бой
+        if (!player1->isAlive() || !player2->isAlive()) {
+            break;
+        }
+
+        // Смена хода
+        isPlayer1Turn = !isPlayer1Turn;
+
+        // Вывод здоровья игроков после фазы
+        cout << "====================================" << endl;
         cout << "Игрок 1 Здоровье: " << player1->getHealth() << endl;
         cout << "Игрок 2 Здоровье: " << player2->getHealth() << endl;
 
         phase++;
     }
 
-    // Determine winner
+    // Определение победителя
     if (player1->isAlive()) {
         cout << "====================================" << endl;
         cout << "Игрок 1 победил!" << endl;
@@ -335,10 +345,9 @@ int main() {
         cout << "====================================" << endl;
     }
 
-
-    // Cleanup
+    // Очистка памяти
     delete player1;
     delete player2;
 
     return 0;
-} 
+}
