@@ -20,6 +20,7 @@ public:
     virtual ~Character() {}
 };
 
+
 int randomize(int min, int max) {
     random_device rd;
     mt19937 gen(rd());
@@ -104,19 +105,28 @@ public:
 
     void attack(Character* opponent) override {
         int finalDamage = ((damage - opponent->getDefense()) * 0.5);
-
-        if (randomize(1, 100) <= 17) { //Пассивная способность мага - Поджег
-            cout << "Пассивая способность мага сработала! Урон текущей атаки увеличен на 50%" << endl;
-            finalDamage = static_cast<int>(finalDamage * 1.5);
-        }
-
         finalDamage *= getElementDamageModifier(opponent->getElement());
-        cout << "Маг Атакует! Нанесено " << finalDamage << " урона!" << endl;
+        cout << "Маг атакует! Нанесено " << finalDamage << " урона!" << endl;
         opponent->takeDamage(finalDamage);
+
+        // Проверка на активацию пассивной способности с шансом 17%
+        if (randomize(1, 100) <= 17) {
+            int healAmount = static_cast<int>(finalDamage * 0.25);  // Восстановление 25% от урона
+            health += healAmount;
+            cout << "Пассивная способность мага сработала при атаке! Восстановлено " << healAmount << " здоровья!" << endl;
+        }
     }
 
     void takeDamage(int damage) override {
         health -= damage;
+
+        // Проверка на активацию пассивной способности с шансом 17% в случае получения урона
+        if (randomize(1, 100) <= 17) {
+            int healAmount = static_cast<int>(damage * 0.25);  // Восстановление 25% от полученного урона
+            health += healAmount;
+            cout << "Пассивная способность мага сработала при защите! Восстановлено " << healAmount << " здоровья!" << endl;
+        }
+        
         if (health < 0) health = 0;
     }
 
@@ -159,22 +169,27 @@ public:
     string getElement() const override { return element; }
 
     void attack(Character* opponent) override {
+
         int finalDamage = ((damage - opponent->getDefense()) * 0.5);
         finalDamage *= getElementDamageModifier(opponent->getElement());
         cout << "Разведчик атакует! Нанесено " << finalDamage << " урона!" << endl;
-        opponent->takeDamage(finalDamage);
+        opponent->takeDamage(finalDamage);   
     }
-
-  /*  void passiveAbility() override {
-        if (randomize(1, 100) <= 17) {
-            cout << "Scout stunned the opponent! They miss their next turn!" << endl;
-        }
-    }*/
 
     void takeDamage(int damage) override {
-        health -= damage;
-        if (health < 0) health = 0;
+         // Проверка, что урон может убить Разведчика
+    if (damage >= health) {
+        // Если урон может убить, то проверяем шанс увернуться
+        if (randomize(1, 100) <= 50) {
+            cout << "Разведчик уклоняется от смертельной атаки!" << endl;
+            return; // Уклонение от атаки
+        }
     }
+
+    // Если уклонение не произошло, Разведчик получает урон
+    health -= damage;
+    if (health < 0) health = 0;
+}
 
     bool isAlive() const override {
         return health > 0;
@@ -216,16 +231,17 @@ public:
 
     void attack(Character* opponent) override {
         int finalDamage = ((damage - opponent->getDefense()) * 0.5);
+
+        if (randomize(1, 100) <= 17) { //Пассивная способность мага - Поджег
+            cout << "Пассивая способность лучника сработала! Урон текущей атаки увеличен на 50%" << endl;
+            finalDamage = static_cast<int>(finalDamage * 1.5);
+        }
+
         finalDamage *= getElementDamageModifier(opponent->getElement());
         cout << "Лучник атакует! Нанесено " << finalDamage << " урона!" << endl;
         opponent->takeDamage(finalDamage);
     }
 
-    /*void passiveAbility() override {
-        if (randomize(1, 100) <= 17) {
-            cout << "Archer applies Bleed effect!" << endl;
-        }
-    }*/
 
     void takeDamage(int damage) override {
         health -= damage;
