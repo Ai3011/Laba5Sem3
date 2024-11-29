@@ -56,7 +56,7 @@ public:
 
 
     void takeDamage(int damage) override {
-        if (randomize(1, 100) <= 17) {   //Пассивная способность - Отражение
+        if (randomize(1, 100) <= 17) {   //Пассивная способность - Парирование
             cout << "Воин отразил атаку" << endl;
             damage = 0;
         }
@@ -182,7 +182,7 @@ public:
         // Если урон может убить, то проверяем шанс увернуться
         if (randomize(1, 100) <= 50) {
             cout << "Разведчик уклоняется от смертельной атаки!" << endl;
-            return; // Уклонение от атаки
+            return; 
         }
     }
 
@@ -232,7 +232,7 @@ public:
     void attack(Character* opponent) override {
         int finalDamage = ((damage - opponent->getDefense()) * 0.5);
 
-        if (randomize(1, 100) <= 17) { //Пассивная способность мага - Поджег
+        if (randomize(1, 100) <= 17) { //Пассивная способность Стрелка - Меткий выстрел
             cout << "Пассивая способность лучника сработала! Урон текущей атаки увеличен на 50%" << endl;
             finalDamage = static_cast<int>(finalDamage * 1.5);
         }
@@ -330,7 +330,7 @@ int main() {
 
     // Используем фабрику для создания персонажа
     player1 = factory->createCharacter(elementChoice);
-    delete factory; // Не забываем очистить память
+    delete factory; 
 
     // Игрок 2
     cout << "Игрок 2, выберите свой класс (Воин, Разведчик, Маг, Лучник): ";
@@ -354,7 +354,7 @@ int main() {
 
     // Используем фабрику для создания персонажа
     player2 = factory->createCharacter(elementChoice);
-    delete factory; // Не забываем очистить память
+    delete factory; 
 
     cout << "====================================" << endl;
 
