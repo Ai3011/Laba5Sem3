@@ -5,40 +5,6 @@
 
 using namespace std;
 
-class CharacterFactory {
-public:
-    virtual Character* createCharacter(const string& element) = 0;
-    virtual ~CharacterFactory() {}
-};
-
-class WarriorFactory : public CharacterFactory {
-public:
-    Character* createCharacter(const string& element) override {
-        return new Warrior(element);
-    }
-};
-
-class MageFactory : public CharacterFactory {
-public:
-    Character* createCharacter(const string& element) override {
-        return new Mage(element);
-    }
-};
-
-class ScoutFactory : public CharacterFactory {
-public:
-    Character* createCharacter(const string& element) override {
-        return new Scout(element);
-    }
-};
-
-class ArcherFactory : public CharacterFactory {
-public:
-    Character* createCharacter(const string& element) override {
-        return new Archer(element);
-    }
-};
-
 
 class Character {
 public:
@@ -285,6 +251,41 @@ private:
     }
 };
 
+class CharacterFactory {
+public:
+    virtual Character* createCharacter(const string& element) = 0;
+    virtual ~CharacterFactory() {}
+};
+
+class WarriorFactory : public CharacterFactory {
+public:
+    Character* createCharacter(const string& element) override {
+        return new Warrior(element);
+    }
+};
+
+class MageFactory : public CharacterFactory {
+public:
+    Character* createCharacter(const string& element) override {
+        return new Mage(element);
+    }
+};
+
+class ScoutFactory : public CharacterFactory {
+public:
+    Character* createCharacter(const string& element) override {
+        return new Scout(element);
+    }
+};
+
+class ArcherFactory : public CharacterFactory {
+public:
+    Character* createCharacter(const string& element) override {
+        return new Archer(element);
+    }
+};
+
+
 int main() {
     Character* player1 = nullptr;
     Character* player2 = nullptr;
@@ -297,7 +298,7 @@ int main() {
     cout << "Выбери элемент для своего класса (Огонь, Вода, Земля, Воздух): ";
     cin >> elementChoice;
 
-    // Выбор фабрики в зависимости от класса
+    // Создание нужного фабричного объекта в зависимости от класса
     if (classChoice == "Воин") {
         factory = new WarriorFactory();
     } else if (classChoice == "Маг") {
@@ -311,8 +312,9 @@ int main() {
         return 1;
     }
 
+    // Используем фабрику для создания персонажа
     player1 = factory->createCharacter(elementChoice);
-    delete factory; // Очистка памяти для фабрики
+    delete factory; // Не забываем очистить память
 
     // Игрок 2
     cout << "Игрок 2, выберите свой класс (Воин, Разведчик, Маг, Лучник): ";
@@ -320,7 +322,7 @@ int main() {
     cout << "Выбери элемент для своего класса (Огонь, Вода, Земля, Воздух): ";
     cin >> elementChoice;
 
-    // Выбор фабрики для второго игрока
+    // Создание нужного фабричного объекта для второго игрока
     if (classChoice == "Воин") {
         factory = new WarriorFactory();
     } else if (classChoice == "Маг") {
@@ -334,8 +336,9 @@ int main() {
         return 1;
     }
 
+    // Используем фабрику для создания персонажа
     player2 = factory->createCharacter(elementChoice);
-    delete factory; // Очистка памяти для фабрики
+    delete factory; // Не забываем очистить память
 
     cout << "====================================" << endl;
 
