@@ -5,6 +5,13 @@
 
 using namespace std;
 
+random_device rd;
+    mt19937 gen(rd());
+
+int randomize(int min, int max) {
+    uniform_int_distribution<> dis(min, max);
+    return dis(gen);
+}
 
 class Character {
 public:
@@ -20,13 +27,6 @@ public:
     virtual ~Character() {}
 };
 
-
-int randomize(int min, int max) {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dis(min, max);
-    return dis(gen);
-}
 
 class Warrior : public Character {
 public:
@@ -364,9 +364,6 @@ int main() {
     string elementChoice, classChoice;
     AbstractFactory* factory = nullptr;
 
-    // Игрок 1
-    cout << "Игрок 1, выберите свой класс (Воин, Разведчик, Маг, Лучник): ";
-    cin >> classChoice;
     cout << "Выбери элемент для своего класса (Огонь, Вода, Земля, Воздух): ";
     cin >> elementChoice;
 
@@ -383,6 +380,10 @@ int main() {
         cout << "Ошибка выбора элемента" << endl;
         return 1;
     }
+
+     // Игрок 1
+    cout << "Игрок 1, выберите свой класс (Воин, Разведчик, Маг, Лучник): ";
+    cin >> classChoice;
 
     // Создание персонажа игрока 1
     if (classChoice == "Воин") {
@@ -401,9 +402,6 @@ int main() {
 
     delete factory;
 
-    // Игрок 2
-    cout << "Игрок 2, выберите свой класс (Воин, Разведчик, Маг, Лучник): ";
-    cin >> classChoice;
     cout << "Выбери элемент для своего класса (Огонь, Вода, Земля, Воздух): ";
     cin >> elementChoice;
 
@@ -420,6 +418,10 @@ int main() {
         cout << "Ошибка выбора элемента" << endl;
         return 1;
     }
+
+     // Игрок 2
+    cout << "Игрок 2, выберите свой класс (Воин, Разведчик, Маг, Лучник): ";
+    cin >> classChoice;
 
     // Создание персонажа игрока 2
     if (classChoice == "Воин") {
@@ -480,9 +482,13 @@ int main() {
 
     // Определение победителя
     if (player1->isAlive()) {
+        cout << "====================================" << endl;
         cout << "Игрок 1 победил!" << endl;
+        cout << "====================================" << endl;
     } else {
+        cout << "====================================" << endl;
         cout << "Игрок 2 победил!" << endl;
+        cout << "====================================" << endl;
     }
 
     // Удаление объектов
