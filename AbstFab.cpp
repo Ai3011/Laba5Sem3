@@ -497,3 +497,77 @@ int main() {
 
     return 0;
 }
+
+
+/*int main() {
+    vector<Character*> warriors;
+    vector<Character*> mages;
+    vector<Character*> scouts;
+    vector<Character*> archers;
+    
+    AbstractFactory* factory = nullptr;
+
+    vector<string> elements = {"Огонь", "Вода", "Земля", "Воздух"};
+    vector<string> classes = {"Воин", "Маг", "Разведчик", "Лучник"};
+
+    // Создаем по 20 персонажей каждого класса и стихии
+    for (const string& element : elements) {
+        if (element == "Огонь") {
+            factory = new FireFactory();
+        } else if (element == "Вода") {
+            factory = new WaterFactory();
+        } else if (element == "Земля") {
+            factory = new EarthFactory();
+        } else if (element == "Воздух") {
+            factory = new AirFactory();
+        }
+
+        // Создаем 20 персонажей каждого класса для каждого элемента
+        for (int i = 0; i < 20; ++i) {
+            warriors.push_back(factory->createWarrior());
+            mages.push_back(factory->createMage());
+            scouts.push_back(factory->createScout());
+            archers.push_back(factory->createArcher());
+        }
+
+        delete factory;
+    }
+
+    // Пример отображения созданных персонажей
+    cout << "Все воины (20 каждого элемента):\n";
+    for (auto& warrior : warriors) {
+        warrior->display();
+    }
+
+    cout << "Все маги (20 каждого элемента):\n";
+    for (auto& mage : mages) {
+        mage->display();
+    }
+
+    cout << "Все разведчики (20 каждого элемента):\n";
+    for (auto& scout : scouts) {
+        scout->display();
+    }
+
+    cout << "Все лучники (20 каждого элемента):\n";
+    for (auto& archer : archers) {
+        archer->display();
+    }
+
+    // Очистка памяти
+    for (auto& warrior : warriors) {
+        delete warrior;
+    }
+    for (auto& mage : mages) {
+        delete mage;
+    }
+    for (auto& scout : scouts) {
+        delete scout;
+    }
+    for (auto& archer : archers) {
+        delete archer;
+    }
+
+    return 0;
+}
+*/
